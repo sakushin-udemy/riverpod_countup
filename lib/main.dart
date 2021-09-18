@@ -25,50 +25,44 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   MyHomePage({
     Key? key,
   }) : super(key: key);
 
   @override
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends ConsumerState<MyHomePage> {
+  @override
   Widget build(BuildContext context) {
     print('MyHomePage rebuild');
     return Scaffold(
       appBar: AppBar(
-        title: Consumer(
-          builder: (BuildContext context, WidgetRef ref, Widget? child) => Text(
-            ref.watch(titleProvider),
-          ),
+        title: Text(
+          ref.watch(titleProvider),
         ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Consumer(
-              builder: (context, ref, child) => Text(
-                ref.watch(messageProvider),
-              ),
+            Text(
+              ref.watch(messageProvider),
             ),
-            Consumer(builder: (context, ref, child) {
-              return Text(
-                ref.watch(countProvider).state.toString(),
-                style: Theme.of(context).textTheme.headline4,
-              );
-            }),
+            Text(
+              ref.watch(countProvider).state.toString(),
+              style: Theme.of(context).textTheme.headline4,
+            )
           ],
         ),
       ),
-      floatingActionButton: Consumer(
-        builder: (context, ref, child) {
-          print('button rebuild');
-          return FloatingActionButton(
-            onPressed: () => ref.read(countProvider).state++,
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
-          );
-        },
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => ref.read(countProvider).state++,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
