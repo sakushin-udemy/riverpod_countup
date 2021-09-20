@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_countup/provider.dart';
@@ -54,14 +55,33 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             Text(
               ref.watch(countProvider).state.toString(),
               style: Theme.of(context).textTheme.headline4,
-            )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                FloatingActionButton(
+                  onPressed: () => ref.read(countProvider).state++,
+                  child: const Icon(CupertinoIcons.plus),
+                ),
+                FloatingActionButton(
+                  onPressed: () => ref.read(countProvider).state++,
+                  child: const Icon(CupertinoIcons.minus),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('1'),
+                Text('2'),
+              ],
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => ref.read(countProvider).state++,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.refresh),
       ),
     );
   }
