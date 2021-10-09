@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:riverpod_countup/data/count_data.dart';
 
 class SoundLogic {
   static const SOUND_DATA_UP = 'sounds/Onmtp-Flash07-1.mp3';
@@ -11,6 +12,18 @@ class SoundLogic {
 
   void load() {
     _cache.loadAll([SOUND_DATA_UP, SOUND_DATA_DOWN, SOUND_DATA_RESET]);
+  }
+
+  void valueChanged(CountData oldValue, CountData newValue) {
+    if (newValue.countUp == 0 &&
+        newValue.countDown == 0 &&
+        newValue.count == 0) {
+      playRestSound();
+    } else if (oldValue.countUp + 1 == newValue.countUp) {
+      playUpSound();
+    } else if (oldValue.countDown + 1 == newValue.countDown) {
+      playDownSound();
+    }
   }
 
   void playUpSound() {
