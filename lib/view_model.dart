@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_countup/data/count_data.dart';
+import 'package:riverpod_countup/logic/button_animation_logic.dart';
 import 'package:riverpod_countup/logic/logic.dart';
 import 'package:riverpod_countup/logic/sound_logic.dart';
 import 'package:riverpod_countup/provider.dart';
@@ -9,8 +10,13 @@ class ViewModel {
   Logic _logic = Logic();
 
   SoundLogic _soundLogic = SoundLogic();
+  late ButtonAnimationLogic _buttonAnimationLogicPlus;
 
   late WidgetRef _ref;
+
+  ViewModel(TickerProvider tickerProvider) {
+    _buttonAnimationLogicPlus = ButtonAnimationLogic(tickerProvider);
+  }
 
   void setRef(WidgetRef ref) {
     this._ref = ref;
