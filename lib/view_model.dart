@@ -14,12 +14,10 @@ class ViewModel {
 
   late WidgetRef _ref;
 
-  ViewModel(TickerProvider tickerProvider) {
-    _buttonAnimationLogicPlus = ButtonAnimationLogic(tickerProvider);
-  }
-
-  void setRef(WidgetRef ref) {
+  void setRef(WidgetRef ref, TickerProvider tickerProvider) {
     this._ref = ref;
+
+    _buttonAnimationLogicPlus = ButtonAnimationLogic(tickerProvider);
     _soundLogic.load();
   }
 
@@ -31,8 +29,11 @@ class ViewModel {
       .watch(countDataProvider.select((value) => value.state.countDown))
       .toString();
 
+  get animationPlus => _buttonAnimationLogicPlus.animationScale;
+
   void onIncrease() {
     _logic.increase();
+    _buttonAnimationLogicPlus.start();
     update();
   }
 
