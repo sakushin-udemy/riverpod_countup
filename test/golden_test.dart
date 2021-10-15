@@ -63,7 +63,8 @@ void main() {
         overrides: [
 //          titleProvider.overrideWithProvider(mockTitleProvider),
           titleProvider
-              .overrideWithProvider(Provider<String>((ref) => 'mockTitle')),
+              //    .overrideWithProvider(Provider<String>((ref) => 'mockTitle')),
+              .overrideWithValue('mockTitle'),
           messageProvider.overrideWithValue('mockMessage'),
         ],
       ),
