@@ -1,7 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:riverpod_countup/data/count_data.dart';
 
-class SoundLogic {
+import 'count_data_changed_notifier.dart';
+
+class SoundLogic with CountDataChangedNotifier {
   static const SOUND_DATA_UP = 'sounds/Onmtp-Flash07-1.mp3';
   static const SOUND_DATA_DOWN = 'sounds/Onmtp-Flash08-1.mp3';
   static const SOUND_DATA_RESET = 'sounds/Onmtp-Flash09-1.mp3';

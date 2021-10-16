@@ -51,7 +51,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
     super.initState();
 
     _viewModel = widget.viewModel;
-    _viewModel.setRef(ref, this);
+    _viewModel.init(ref, this);
   }
 
   @override
@@ -86,7 +86,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
                 ),
                 FloatingActionButton(
                   onPressed: _viewModel.onDecrease,
-                  child: const Icon(CupertinoIcons.minus),
+                  child: ScaleTransition(
+                    scale: _viewModel.animationMinus,
+                    child: const Icon(CupertinoIcons.minus),
+                  ),
                 ),
               ],
             ),
@@ -106,7 +109,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _viewModel.onReset,
-        child: const Icon(Icons.refresh),
+        child: ScaleTransition(
+          scale: _viewModel.animationReset,
+          child: const Icon(CupertinoIcons.refresh),
+        ),
       ),
     );
   }

@@ -1,13 +1,18 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:riverpod_countup/data/count_data.dart';
 
-class ButtonAnimationLogic {
+import 'count_data_changed_notifier.dart';
+
+class ButtonAnimationLogic with CountDataChangedNotifier {
   late AnimationController _animationController;
   late Animation<double> _animationScale;
 
   get animationScale => _animationScale;
 
-  ButtonAnimationLogic(TickerProvider tickerProvider) {
+  ValueChangedCondition startCondition;
+
+  ButtonAnimationLogic(TickerProvider tickerProvider, this.startCondition) {
     _animationController = AnimationController(
       vsync: tickerProvider,
       duration: Duration(milliseconds: 500),
@@ -27,5 +32,12 @@ class ButtonAnimationLogic {
     _animationController.forward().whenComplete(
           () => _animationController.reset(),
         );
+  }
+
+  @override
+  void valueChanged(CountData oldValue, CountData newValue) {
+    if (startCondition(oldValue, newValue)) {
+      start();
+    }
   }
 }
