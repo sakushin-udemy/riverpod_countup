@@ -52,7 +52,7 @@ class MyHomePage extends StatelessWidget {
             ),
             Consumer(builder: (context, ref, child) {
               return Text(
-                ref.watch(countProvider).state.toString(),
+                ref.watch(countProvider).toString(),
                 style: Theme.of(context).textTheme.headline4,
               );
             }),
@@ -63,7 +63,7 @@ class MyHomePage extends StatelessWidget {
         builder: (context, ref, child) {
           print('button rebuild');
           return FloatingActionButton(
-            onPressed: () => ref.read(countProvider).state++,
+            onPressed: () => ref.read(countProvider.state).state++,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           );
