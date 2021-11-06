@@ -15,7 +15,7 @@ class ViewModel {
   late ButtonAnimationLogic _buttonAnimationLogicMinus;
   late ButtonAnimationLogic _buttonAnimationLogicReset;
 
-  late WidgetRef _ref;
+  WidgetRef? _ref;
 
   List<CountDataChangedNotifier> notifiers = [];
 
@@ -47,12 +47,12 @@ class ViewModel {
     ];
   }
 
-  get count => _ref.watch(countDataProvider).state.count.toString();
+  get count => _ref?.watch(countDataProvider).count.toString();
   get countUp => _ref
-      .watch(countDataProvider.select((value) => value.state.countUp))
+      ?.watch(countDataProvider.select((value) => value.countUp))
       .toString();
   get countDown => _ref
-      .watch(countDataProvider.select((value) => value.state.countDown))
+      ?.watch(countDataProvider.select((value) => value.countDown))
       .toString();
 
   get animationPlus => _buttonAnimationLogicPlus.animationScale;
@@ -75,9 +75,16 @@ class ViewModel {
   }
 
   void update() {
-    CountData oldValue = _ref.watch(countDataProvider).state;
-    _ref.watch(countDataProvider).state = _logic.countData;
-    CountData newValue = _ref.watch(countDataProvider).state;
+    if (_ref == null) {
+      return;
+    }
+
+    CountData oldValue = _ref!.watch(countDataProvider.state).state;
+    //_ref!.watch(countDataProvider.state).state = _logic.countData;
+    //_ref!.watch(countDataProvider.notifier).state = _logic.countData;
+    _ref!.watch(countDataProvider.notifier).update((state) => _logic.countData);
+
+    CountData newValue = _ref!.watch(countDataProvider.notifier).state;
 
     notifiers.forEach((element) => element.valueChanged(oldValue, newValue));
   }
