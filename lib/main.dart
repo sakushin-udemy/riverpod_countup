@@ -46,14 +46,14 @@ class MyHomePage extends ConsumerWidget {
               ref.watch(messageProvider),
             ),
             Text(
-              ref.watch(countProvider).state.toString(),
+              ref.watch(countProvider).toString(),
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => ref.watch(countProvider).state++,
+        onPressed: () => ref.watch(countProvider.state).state++,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
