@@ -1,16 +1,15 @@
 # riverpod_countup
 
-A new Flutter project.
+Udemyの講座[「Flutter x Riverpod x MVVMで実現するシンプルな設計」](https://www.udemy.com/course/flutter-tdd/)のソースコードです。
 
 ## Getting Started
+受講頂いてから見て頂けると、より理解が深まります。未受講の方は[こちら](https://www.udemy.com/course/flutter-tdd/)からぜひご受講ください！
+クーポンは、[こちらにあります](https://zenn.dev/sakusin/articles/a00aa8af321f54)。ぜひご利用ください。
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+riverpodの色々な形に対応しており、ブランチで分けてます。
+master: 編集前
+MVVM：MVVMを使用した最終形態(笑)
+Comsumer: riverpodの表示部分をConsumerを使用したパターン
+ComsumerWidget: riverpodの全体のソースをConsumerWidgetで実装したパターン
+ComsumerStatefulWidget: riverpodの全体のソースをConsumerStatefulWidgetで実装したパターン
+dev11: riverpod 1.0.0-dev11での実装
