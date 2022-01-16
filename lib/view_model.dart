@@ -4,6 +4,7 @@ import 'package:riverpod_countup/data/count_data.dart';
 import 'package:riverpod_countup/logic/button_animation_logic.dart';
 import 'package:riverpod_countup/logic/count_data_changed_notifier.dart';
 import 'package:riverpod_countup/logic/logic.dart';
+import 'package:riverpod_countup/logic/shared_preferences_logic.dart';
 import 'package:riverpod_countup/logic/sound_logic.dart';
 import 'package:riverpod_countup/provider.dart';
 
@@ -29,6 +30,7 @@ class ViewModel {
 
     _buttonAnimationLogicPlus =
         ButtonAnimationLogic(tickerProvider, conditionPlus);
+
     _buttonAnimationLogicMinus = ButtonAnimationLogic(tickerProvider,
         (CountData oldValue, CountData newValue) {
       return oldValue.countDown + 1 == newValue.countDown;
@@ -44,7 +46,11 @@ class ViewModel {
       _buttonAnimationLogicPlus,
       _buttonAnimationLogicMinus,
       _buttonAnimationLogicReset,
+      SharedPreferencesLogic(),
     ];
+
+    SharedPreferencesLogic.read()
+        .then((value) => ref.read(countDataProvider).state = value);
   }
 
   get count => _ref.watch(countDataProvider).state.count.toString();
@@ -55,9 +61,14 @@ class ViewModel {
       .watch(countDataProvider.select((value) => value.state.countDown))
       .toString();
 
-  get animationPlus => _buttonAnimationLogicPlus.animationScale;
-  get animationMinus => _buttonAnimationLogicMinus.animationScale;
-  get animationReset => _buttonAnimationLogicReset.animationScale;
+  get animationPlusCombination =>
+      _buttonAnimationLogicPlus.animationCombination;
+
+  get animationMinusCombination =>
+      _buttonAnimationLogicMinus.animationCombination;
+
+  get animationResetCombination =>
+      _buttonAnimationLogicReset.animationCombination;
 
   void onIncrease() {
     _logic.increase();

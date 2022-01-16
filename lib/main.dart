@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_countup/provider.dart';
 import 'package:riverpod_countup/view_model.dart';
 
+import 'button_animation.dart';
 import 'data/count_data.dart';
+import 'logic/button_animation_logic.dart';
 
 void main() {
   runApp(
@@ -79,15 +81,15 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
               children: [
                 FloatingActionButton(
                   onPressed: _viewModel.onIncrease,
-                  child: ScaleTransition(
-                    scale: _viewModel.animationPlus,
+                  child: ButtonAnimation(
+                    animationCombination: _viewModel.animationPlusCombination,
                     child: const Icon(CupertinoIcons.plus),
                   ),
                 ),
                 FloatingActionButton(
                   onPressed: _viewModel.onDecrease,
-                  child: ScaleTransition(
-                    scale: _viewModel.animationMinus,
+                  child: ButtonAnimation(
+                    animationCombination: _viewModel.animationMinusCombination,
                     child: const Icon(CupertinoIcons.minus),
                   ),
                 ),
@@ -109,8 +111,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _viewModel.onReset,
-        child: ScaleTransition(
-          scale: _viewModel.animationReset,
+        child: ButtonAnimation(
+          animationCombination: _viewModel.animationResetCombination,
           child: const Icon(CupertinoIcons.refresh),
         ),
       ),

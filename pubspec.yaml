@@ -37,6 +37,7 @@ dependencies:
   flutter_riverpod: ^1.0.0-dev.11
   freezed_annotation: ^0.14.3
   audioplayers: ^0.20.1
+  shared_preferences: ^2.0.12
 
 dev_dependencies:
   flutter_test:
