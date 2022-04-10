@@ -49,16 +49,17 @@ class ViewModel {
       SharedPreferencesLogic(),
     ];
 
-    SharedPreferencesLogic.read()
-        .then((value) => ref.read(countDataProvider).state = value);
+    SharedPreferencesLogic.read().then((value) {
+      _logic.init(value);
+      update();
+    });
   }
 
-  get count => _ref.watch(countDataProvider).state.count.toString();
-  get countUp => _ref
-      .watch(countDataProvider.select((value) => value.state.countUp))
-      .toString();
+  get count => _ref.watch(countDataProvider).count.toString();
+  get countUp =>
+      _ref.watch(countDataProvider.select((value) => value.countUp)).toString();
   get countDown => _ref
-      .watch(countDataProvider.select((value) => value.state.countDown))
+      .watch(countDataProvider.select((value) => value.countDown))
       .toString();
 
   get animationPlusCombination =>
@@ -86,9 +87,9 @@ class ViewModel {
   }
 
   void update() {
-    CountData oldValue = _ref.watch(countDataProvider).state;
-    _ref.watch(countDataProvider).state = _logic.countData;
-    CountData newValue = _ref.watch(countDataProvider).state;
+    CountData oldValue = _ref.watch(countDataProvider);
+    _ref.watch(countDataProvider.notifier).update((state) => _logic.countData);
+    CountData newValue = _ref.watch(countDataProvider);
 
     notifiers.forEach((element) => element.valueChanged(oldValue, newValue));
   }
