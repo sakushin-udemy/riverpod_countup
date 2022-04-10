@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_countup/provider.dart';
 import 'package:riverpod_countup/view_model.dart';
 
+import 'button_animation.dart';
 import 'data/count_data.dart';
+import 'logic/button_animation_logic.dart';
 
 void main() {
   runApp(
@@ -42,7 +44,8 @@ class MyHomePage extends ConsumerStatefulWidget {
   ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends ConsumerState<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage>
+    with TickerProviderStateMixin {
   late ViewModel _viewModel;
 
   @override
@@ -50,7 +53,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     super.initState();
 
     _viewModel = widget.viewModel;
-    _viewModel.setRef(ref);
+    _viewModel.init(ref, this);
   }
 
   @override
@@ -78,11 +81,17 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               children: [
                 FloatingActionButton(
                   onPressed: _viewModel.onIncrease,
-                  child: const Icon(CupertinoIcons.plus),
+                  child: ButtonAnimation(
+                    animationCombination: _viewModel.animationPlusCombination,
+                    child: const Icon(CupertinoIcons.plus),
+                  ),
                 ),
                 FloatingActionButton(
                   onPressed: _viewModel.onDecrease,
-                  child: const Icon(CupertinoIcons.minus),
+                  child: ButtonAnimation(
+                    animationCombination: _viewModel.animationMinusCombination,
+                    child: const Icon(CupertinoIcons.minus),
+                  ),
                 ),
               ],
             ),
@@ -102,7 +111,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _viewModel.onReset,
-        child: const Icon(Icons.refresh),
+        child: ButtonAnimation(
+          animationCombination: _viewModel.animationResetCombination,
+          child: const Icon(CupertinoIcons.refresh),
+        ),
       ),
     );
   }

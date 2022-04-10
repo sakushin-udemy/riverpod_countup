@@ -30,4 +30,8 @@ class Logic {
       countDown: 0,
     );
   }
+
+  void init(CountData countData) {
+    _countData = countData;
+  }
 }
