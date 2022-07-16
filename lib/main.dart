@@ -5,8 +5,6 @@ import 'package:riverpod_countup/provider.dart';
 import 'package:riverpod_countup/view_model.dart';
 
 import 'button_animation.dart';
-import 'data/count_data.dart';
-import 'logic/button_animation_logic.dart';
 
 void main() {
   runApp(
@@ -117,5 +115,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    super.dispose();
   }
 }

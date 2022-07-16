@@ -93,4 +93,10 @@ class ViewModel {
 
     notifiers.forEach((element) => element.valueChanged(oldValue, newValue));
   }
+
+  void dispose() {
+    _buttonAnimationLogicPlus.dispose();
+    _buttonAnimationLogicMinus.dispose();
+    _buttonAnimationLogicReset.dispose();
+  }
 }
