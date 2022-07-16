@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:riverpod_countup/animation_combination.dart';
 import 'package:riverpod_countup/main.dart';
 import 'package:riverpod_countup/provider.dart';
 import 'package:riverpod_countup/view_model.dart';
@@ -31,6 +32,7 @@ void main() {
       ),
     );
 
+    await tester.tap(find.byIcon(CupertinoIcons.refresh));
     await multiScreenGolden(
       tester,
       'myHomePage_0init',
@@ -48,23 +50,27 @@ void main() {
       devices: devices,
     );
   });
-
   testGoldens('viewModelTest', (tester) async {
     var mock = MockViewModel();
     when(() => mock.count).thenReturn(1123456789.toString());
     when(() => mock.countUp).thenReturn(2123456789.toString());
     when(() => mock.countDown).thenReturn(3123456789.toString());
 
-    final mockTitleProvider = Provider<String>((ref) => 'mockTitle');
+    final dummyController = AnimationController(
+      vsync: TestVSync(),
+      duration: Duration.zero,
+    );
+    var dummyAnimation = dummyController.drive(Tween(begin: 1.0, end: 1.0));
+    var dummyCombination = AnimationCombination(dummyAnimation, dummyAnimation);
+    when(() => mock.animationPlusCombination).thenReturn(dummyCombination);
+    when(() => mock.animationMinusCombination).thenReturn(dummyCombination);
+    when(() => mock.animationResetCombination).thenReturn(dummyCombination);
 
     await tester.pumpWidgetBuilder(
       ProviderScope(
         child: MyHomePage(mock),
         overrides: [
-//          titleProvider.overrideWithProvider(mockTitleProvider),
-          titleProvider
-              //    .overrideWithProvider(Provider<String>((ref) => 'mockTitle')),
-              .overrideWithValue('mockTitle'),
+          titleProvider.overrideWithValue('mockTitle'),
           messageProvider.overrideWithValue('mockMessage'),
         ],
       ),
@@ -90,7 +96,7 @@ void main() {
     verify(() => mock.onDecrease()).called(2);
     verifyNever(() => mock.onReset());
 
-    await tester.tap(find.byIcon(Icons.refresh));
+    await tester.tap(find.byIcon(CupertinoIcons.refresh));
     verifyNever(() => mock.onIncrease());
     verifyNever(() => mock.onDecrease());
     verify(() => mock.onReset()).called(1);
